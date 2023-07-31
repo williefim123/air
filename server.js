@@ -9,11 +9,13 @@ http.createServer(function (request, response) {
 
 const {Builder, Browser, By, Key, until, locateWith} = require('selenium-webdriver');
 
+
+
 (async function example() {
   let driver = await new Builder().forBrowser(Browser.CHROME).build();
+
+
   try {
-    // await driver.get('https://www.google.com/ncr');
-    // await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
     await driver.get('https://www.skyscanner.com.hk/transport/flights/hkg/es/?adultsv2=1&cabinclass=economy&childrenv2=&ref=home&rtn=1&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false&oym=2308&iym=2308&qp_prevScreen=COMBINED_EXPLORE');
 
     // card = await driver.findElement(By.id('app-root'));
@@ -39,17 +41,33 @@ const {Builder, Browser, By, Key, until, locateWith} = require('selenium-webdriv
     // cards = locateWith(By.xpath("//*[starts-with(@class, 'BpkCard_bpk-card__OGNlM')]")).below(By.xpath("//*[starts-with(@class, 'ResultList_container')]"));
     
     // console.log(cards);
+    let flightTable = [];
+
     for (const card of cards) {
       divs = await card.findElements(By.css("div"));
       for (const div of divs) {
         // console.log());
         spans = await div.findElements(By.css("span"));
         // console.log(spans);
+        
+        let spanIndex = 0;
+        let row = [];
+
         for(const span of spans) {
+          console.log('///////');
+          console.log(spanIndex);
           console.log(await span.getText());
 
+
+          if(spanIndex !== 1){
+            row.push(await span.getText());
+          } 
+          spanIndex++;
+
         }
+        // flightTable.push(row);
       }
+
 
       // Extract the location name
       // const locationName = await card.findElement(By.className('BpkText_bpk-text--heading-4__NDQ1Y')).getText();
@@ -66,6 +84,7 @@ const {Builder, Browser, By, Key, until, locateWith} = require('selenium-webdriv
       // console.log('Price: ', price);
       // console.log('Number of Connecting Flights: ', numberOfConnectingFlights);
     }
+    console.table(flightTable);
     // card = driver.findElement(By.className("BpkCard_bpk-card__OGNlM"));
 
      
