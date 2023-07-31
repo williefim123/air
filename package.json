@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chromedriver-undetected": "^106.0.2",
     "selenium-webdriver": "^4.10.0"
   }
 }
